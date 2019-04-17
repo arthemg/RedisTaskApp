@@ -1,0 +1,19 @@
+{
+  "name": "redis_tasks_app",
+  "version": "1.0.0",
+  "description": "Basic tasks app with redis support",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "*",
+    "express": "^4.16.4",
+    "morgan": "*",
+    "nodemon": "^1.18.11",
+    "redis": "*"
+  }
+}

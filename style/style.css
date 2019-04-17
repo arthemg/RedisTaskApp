@@ -1,0 +1,7 @@
+.del:checked+span {
+            color: red;
+        }
+
+        .task-list {
+            list-style: none;
+        }

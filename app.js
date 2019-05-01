@@ -3,6 +3,7 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var redis = require('redis');
+var uuidv4 = require('uuid/v4')
 
 var app = express();
 
@@ -22,11 +23,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/style', express.static('style'));
 
+// app.get('/', function (req, res) {
+//     var title = 'Tasks List';
+
+//     client.LRANGE('tasks', 0, -1, function (err, reply) {
+//         client.hgetall('call', function (err, call) {
+//             res.render('index', {
+//                 title: title,
+//                 tasks: reply,
+//                 call: call
+//             })
+//         });
+//     });
+// });
+
 app.get('/', function (req, res) {
     var title = 'Tasks List';
 
-    client.LRANGE('tasks', 0, -1, function (err, reply) {
-        client.hgetall('call', function (err, call) {
+    client.HGETALL('todolist', function (err, reply) {
+        // console.log("Reply", reply);
+        // console.log("Reply length", reply.length);
+        client.HGETALL('call', function (err, call) {
             res.render('index', {
                 title: title,
                 tasks: reply,
@@ -38,8 +55,8 @@ app.get('/', function (req, res) {
 
 app.post('/task/add', function (req, res) {
     var task = req.body.task;
-
-    client.rpush('tasks', task), function (err, reply) {
+    var taskID = uuidv4();
+    client.HMSET('todolist', taskID, task), function (err, reply) {
         if (err) {
             console.log(err);
         }
@@ -55,20 +72,20 @@ app.post('/task/delete', function (req, res) {
     else {
         tasksToDel = [req.body.tasks];
     }
-    client.lrange('tasks', 0, -1, function (err, tasks) {
-        for (var j = 0; j < tasksToDel.length; j++) {
-            for (var i = 0; i < tasks.length; i++) {
-                if (tasksToDel[j].indexOf(tasks[i]) > -1) {
-                    client.lrem('tasks', 0, tasks[i], function () {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-                }
+
+    for (var i = 0; i < tasksToDel.length; i++) {
+
+        client.hdel("todolist", tasksToDel[i].trim(), function (e, r) {
+            if (e) {
+                console.log(e);
             }
-        }
-        res.redirect('/');
-    })
+            else {
+                console.log(r);
+            }
+        });
+    }
+    console.log('Task Deleted...');
+    res.redirect('/');
 })
 
 app.post('/call/add', function (req, res) {

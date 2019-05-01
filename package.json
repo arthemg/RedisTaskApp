@@ -13,7 +13,8 @@
     "ejs": "*",
     "express": "^4.16.4",
     "morgan": "*",
-    "nodemon": "^1.18.11",
-    "redis": "*"
+    "nodemon": "^1.19.0",
+    "redis": "*",
+    "uuid": "^3.3.2"
   }
 }

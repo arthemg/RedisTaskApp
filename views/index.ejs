@@ -4,7 +4,7 @@
     <title>Redis Tasks</title>
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/cerulean/bootstrap.min.css">
-    
+
 </head>
 
 <body>
@@ -22,13 +22,14 @@
         <h3><%= title %></h3>
         <form method="POST" action="/task/delete">
             <ul class="task-list">
-                <% tasks.forEach(function(task){ %>
+                <% for (var task in tasks){ %>
                 <li>
                     <label>
-                        <input type="checkbox" name="tasks" class="del" value=" <%= task %>"><span><%= task %></span>
+                        <input type="checkbox" name="tasks" class="del"
+                            value=" <%=task %>"><span><%= tasks[task] %></span>
                     </label>
                 </li>
-                <% }) %>
+                <% } %>
             </ul>
             <input type="submit" value="Remove">
         </form>
@@ -62,4 +63,5 @@
         </div>
     </div>
 </body>
+
 </html>

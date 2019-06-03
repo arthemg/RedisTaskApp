@@ -23,26 +23,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/style', express.static('style'));
 
-// app.get('/', function (req, res) {
-//     var title = 'Tasks List';
-
-//     client.LRANGE('tasks', 0, -1, function (err, reply) {
-//         client.hgetall('call', function (err, call) {
-//             res.render('index', {
-//                 title: title,
-//                 tasks: reply,
-//                 call: call
-//             })
-//         });
-//     });
-// });
-
 app.get('/', function (req, res) {
     var title = 'Tasks List';
 
     client.HGETALL('todolist', function (err, reply) {
-        // console.log("Reply", reply);
-        // console.log("Reply length", reply.length);
         client.HGETALL('call', function (err, call) {
             res.render('index', {
                 title: title,

@@ -11,7 +11,7 @@
   "dependencies": {
     "body-parser": "*",
     "ejs": "*",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "morgan": "*",
     "nodemon": "^1.19.0",
     "redis": "*",
